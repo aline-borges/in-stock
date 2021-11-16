@@ -1,0 +1,38 @@
+/* BUTTONS */
+
+.button {
+  border: none;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 1.2rem;
+  background: #000000e8;
+  color: #F9F9F9;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 1.6rem 3.2rem;
+  min-width: 20rem;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.button:hover {
+  background-color: #000000;
+}
+
+/* ICONS */
+
+.button-icon {
+  width: 1.6rem;
+  margin-left: 2.4rem
+}
+
+/* MEDIA QUERIES */
+
+@media (max-width: 414px) {
+  .button {
+    font-size: 1.4rem;
+  }
+}
