@@ -16,21 +16,21 @@ const Table = (props) => {
       <td 
       className="products-item">{product.id}</td>
       <td 
-      className="products-item">{product.productName}</td>
+      className="products-item">{product.Name}</td>
       <td 
-      className="products-item">{product.price}</td>
+      className="products-item">{product.UnitValue}</td>
       <td 
       className="products-item">
         <StockButton 
         text="-"
         onClick={() =>props.onChangeStock(product.id, 'sub')}/>
-          {product.stock}
+          {product.QuantityInStock}
         <StockButton 
         text="+"
         onClick={() =>props.onChangeStock(product.id, 'add')}/>
       </td>
       <td 
-      className="products-item">R${product.price * product.stock}</td>
+      className="products-item">R${product.UnitValue * product.QuantityInStock}</td>
       <td className="products-item">
         <EditButton
         id="delete-button" 
@@ -57,28 +57,28 @@ const Table = (props) => {
             </th>
             <th className="products-attribute">
               <button
-                onClick={() => props.onSort('productName')}
+                onClick={() => props.onSort('Name')}
               >
                 Nome
               </button>
             </th>
             <th className="products-attribute">
               <button
-                onClick={() => props.onSort('price')}
+                onClick={() => props.onSort('UnitValue')}
               >
                 Preço Unitário 
               </button>
             </th>
             <th className="products-attribute">
               <button
-                onClick={() => props.onSort('stock')}
+                onClick={() => props.onSort('QuantityInStock')}
               >
                 Em Estoque
               </button>              
             </th>
             <th className="products-attribute">
               <button
-                onClick={() => props.onSort('stockPrice')}
+                onClick={() => props.onSort('TotalValue')}
               >
                 Preço do Estoque 
               </button>
