@@ -1,0 +1,36 @@
+/* INPUTS */
+
+.product-attribute {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+}
+
+.product-value {
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 2px solid #000000;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.8rem;
+  text-align: center;
+  min-width: 38rem;
+  margin-left: 5rem;
+  outline: none;
+}
+
+/* MEDIA QUERIES */
+
+@media (max-width: 414px) {
+  .product-attribute {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .product-value {
+    min-width: 0;
+    margin-left: 0;
+  }
+}
