@@ -1,0 +1,27 @@
+/* INPUTS */
+
+.search-input {
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 2px solid #000000;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.8rem;
+  text-align: center;
+  min-width: 40rem;
+  padding: 0.8rem;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: #000000bd;
+}
+
+/* MEDIA QUERIES */
+
+@media (max-width: 414px) {
+  .search-input {
+    margin: 3rem 0 0;
+    min-width: fit-content;
+  }
+}
