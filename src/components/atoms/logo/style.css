@@ -1,0 +1,8 @@
+/* MEDIA QUERIES */
+
+@media (max-width: 414px) {
+  .logo {
+    margin: 0;
+    min-width: 22rem;
+  }
+}
