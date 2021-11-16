@@ -1,0 +1,19 @@
+/* FORMS */
+
+.search-form {
+  display: flex;
+  justify-content: space-between; 
+  margin-top: 3rem;
+}
+
+/* MEDIA QUERIES */
+
+@media (max-width: 414px) {
+  .search-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+  }
+}
