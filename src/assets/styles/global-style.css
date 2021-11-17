@@ -17,3 +17,13 @@ body {
 ul {
   list-style-type: none;
 }
+
+.Toastify__toast-theme--dark {
+  font-size: 1.6rem;
+  min-width: max-content;
+}
+
+.Toastify__toast-container--top-right {
+  top: 1em;
+  right: 7em;
+}

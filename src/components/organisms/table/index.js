@@ -1,5 +1,4 @@
 import React from 'react'
-import UUID from 'uuid-int';
 import './style.css'
 
 import EditButton from '../../atoms/buttons/editButton/'
@@ -10,19 +9,16 @@ import del from '../../../assets/icons/delete.svg'
 
 const Table = (props) => {
   const renderRow = product => {
-    const generator = UUID(parseFloat(product.id));
-    const convertedProductId = Math.round((generator.uuid())/100000000)
-
     return(
       <tr 
       key={product.id}
       className="products-row">
       <td 
-      className="products-item" id="product-id">{convertedProductId}</td>
+      className="products-item" id="product-id">{product.id}</td>
       <td 
       className="products-item">{product.Name}</td>
       <td 
-      className="products-item">{(product.UnitValue).toFixed(2)}</td>
+      className="products-item">{product.UnitValue}</td>
       <td 
       className="products-item">
         <StockButton 
@@ -34,7 +30,7 @@ const Table = (props) => {
         onClick={() =>props.onChangeStock(product.id, 'add')}/>
       </td>
       <td 
-      className="products-item">R${(product.UnitValue * product.QuantityInStock).toFixed(2)}</td>
+      className="products-item">R${product.UnitValue * product.QuantityInStock}</td>
       <td className="products-item">
         <EditButton
         id="delete-button" 

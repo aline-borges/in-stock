@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { DataStore } from "@aws-amplify/datastore";
 import { Product as ProductModel } from "../../../models";
 import './style.css';
@@ -43,25 +45,48 @@ const Product = (props) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     if (parseFloat(product.UnitValue) === 0 || product.UnitValue === '') {
-      alert('Preço não pode ser 0')
+      toast.warning("Preço não pode ser 0...🤔", {
+        position: "top-right",
+        theme: "dark",
+        role: "stock-zero-alert",
+      })
       return
     }
     if(parseFloat(product.QuantityInStock) === 0 || product.QuantityInStock === '') {
-      alert('Estoque não pode ser abaixo de 1')
+      toast.warning("Estoque não pode ser abaixo de 1...🤨", {
+        position: "top-right",
+        theme: "dark",
+        role: "stock-below-alert",
+      })
       return
     }
-    await DataStore.save(new ProductModel(product));
-    setProduct({
-      Name: '',
-      UnitValue: '',
-      QuantityInStock: '',
-      TotalValue: 0,
-    });
-    props.updateProducts();
+
+    if (window.confirm('Está tudo certo com os seus dados??')) {
+      await DataStore.save(new ProductModel(product));
+      setProduct({
+        Name: '',
+        UnitValue: '',
+        QuantityInStock: '',
+        TotalValue: 0,
+      });
+      props.updateProducts();
+      toast.success("Produto criado com sucesso! 👌", {
+        position: "top-right",
+        theme: "dark",
+        role: "create-product-alert",
+      })
+    } else {
+      toast.info("Nenhum produto foi criado. 😥", {
+        position: "top-right",
+        theme: "dark",
+        role: "none-product-alert",
+      })
+    }
   }
 
   return(
     <section className="product">
+      <ToastContainer />
       <form className="product-form" onSubmit={handleSubmit}>
         <p className="title-form">Criar Item</p>
         <Input 

@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Amplify from "@aws-amplify/core";
 import awsconfig from "./aws-exports";
 import { DataStore } from "@aws-amplify/datastore";
@@ -34,8 +36,22 @@ const App = () => {
 
   const handleDelete = async (id) => {
     const todelete = await DataStore.query(ProductModels, id);
-    DataStore.delete(todelete);
-    getData();
+
+    if (window.confirm('Você tem certeza que deseja deletar esse produto? 😮')) {
+      DataStore.delete(todelete);
+      getData();
+      toast.success("Produto removido com sucesso! 👍", {
+        position: "top-right",
+        theme: "dark",
+        role: "delete-alert",
+      })
+    } else {
+      toast.info("Nenhum produto foi removido. 😥", {
+        position: "top-right",
+        theme: "dark",
+        role: "none-product-alert",
+      })
+    }
   };
 
   const handleSort = (tableField) => {
@@ -111,6 +127,7 @@ const App = () => {
   return (
     <Container>
       <Header />
+      <ToastContainer />
       <Product updateProducts={getData} />
       <Search onSearch={handleSearch} />
       <Table
