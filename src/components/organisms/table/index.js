@@ -1,4 +1,5 @@
 import React from 'react'
+import UUID from 'uuid-int';
 import './style.css'
 
 import EditButton from '../../atoms/buttons/editButton/'
@@ -9,12 +10,15 @@ import del from '../../../assets/icons/delete.svg'
 
 const Table = (props) => {
   const renderRow = product => {
+    const generator = UUID(parseFloat(product.id));
+    const convertedProductId = Math.round((generator.uuid())/100000000)
+
     return(
       <tr 
       key={product.id}
       className="products-row">
       <td 
-      className="products-item" id="product-id">{product.id}</td>
+      className="products-item" id="product-id">{convertedProductId}</td>
       <td 
       className="products-item">{product.Name}</td>
       <td 
