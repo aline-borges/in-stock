@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Amplify from "@aws-amplify/core";
 import awsconfig from "./aws-exports";
 import { DataStore } from "@aws-amplify/datastore";
@@ -20,10 +20,12 @@ const App = () => {
     key: "id",
     ascending: true,
   });
-
+  const productsRef = useRef();
+  
   const getData = async () => {
     const products = await DataStore.query(ProductModels);
     setProducts(products);
+    productsRef.current = products;
   };
 
   useEffect(() => {
@@ -75,9 +77,8 @@ const App = () => {
 
   const handleSearch = (event) => {
     const { value } = event.target;
-    const productsList = JSON.parse(localStorage.getItem("products")) || [];
-    const filteredProducts = productsList.filter((product) =>
-      product.productName.toLowerCase().startsWith(value.toLowerCase())
+    const filteredProducts = productsRef.current.filter((product) =>
+      product.Name.toLowerCase().startsWith(value.toLowerCase())
     );
     setProducts(filteredProducts);
   };
@@ -108,7 +109,7 @@ const App = () => {
   return (
     <Container>
       <Header />
-      <Product updateProducts={setProducts} />
+      <Product updateProducts={getData} />
       <Search onSearch={handleSearch} />
       <Table
         onDelete={handleDelete}

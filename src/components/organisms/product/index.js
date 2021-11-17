@@ -1,45 +1,36 @@
-import React, { useState, useEffect } from 'react'
-import './style.css'
+import React, { useState } from 'react';
+import { DataStore } from "@aws-amplify/datastore";
+import { Product as ProductModel } from "../../../models";
+import './style.css';
 
-import Input from '../../atoms/input'
-import Button from '../../atoms/buttons/button'
+import Input from '../../atoms/input';
+import Button from '../../atoms/buttons/button';
 
-import create from '../../../assets/icons/create.svg'
+import create from '../../../assets/icons/create.svg';
 
 const Product = (props) => {
   const [product, setProduct] = useState({
-    id: 1,
-    productName: '',
-    price: '',
-    stock: '',
-    stockPrice: 0
+    Name: '',
+    UnitValue: '',
+    QuantityInStock: '',
+    TotalValue: 0
   })
-
-  useEffect(() => {
-    setProduct({
-      id: props.nextId,
-      productName: '',
-      price: '',
-      stock: '',
-      stockPrice: 0,
-    })
-  }, [props.nextId])
 
   const handleChange = (event) => {
     const { value, name } = event.target;
-    if (name === 'stock') {
+    if (name === 'QuantityInStock') {
         setProduct(prevState => ({
             ...prevState,
-            [name]: value,
-            stockPrice: prevState.price * value
+            [name]: parseFloat(value),
+            TotalValue: parseFloat(prevState.QuantityInStock) * parseFloat(value)
         }))
         return;
     }
-    if (name === 'price') {
+    if (name === 'UnitValue') {
         setProduct(prevState => ({
             ...prevState,
-            [name]: value,
-            stockPrice: prevState.stock * value
+            [name]: parseFloat(value),
+            TotalValue: parseFloat(prevState.QuantityInStock) * parseFloat(value)
         }))
         return;
     }
@@ -49,49 +40,37 @@ const Product = (props) => {
     }))
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    if (parseFloat(product.price) === 0 || product.price === '') {
+    if (parseFloat(product.UnitValue) === 0 || product.UnitValue === '') {
       alert('Preço não pode ser 0')
       return
     }
-    if(parseFloat(product.stock) === 0 || product.stock === '') {
+    if(parseFloat(product.QuantityInStock) === 0 || product.QuantityInStock === '') {
       alert('Estoque não pode ser abaixo de 1')
       return
     }
-    const products = JSON.parse(localStorage.getItem('products')) || []
-    products.push(product)
-    const orderedProducts = products.sort((a, b) => a.id - b.id)
-    localStorage.setItem('products', JSON.stringify(orderedProducts))
+    await DataStore.save(new ProductModel(product));
     setProduct({
-      id: props.nextId,
-      productName: '',
-      price: '',
-      stock: '',
-      stockPrice: 0,
-    })
-    props.updateProducts(products)
-    props.getNextId()
+      Name: '',
+      UnitValue: '',
+      QuantityInStock: '',
+      TotalValue: 0,
+    });
+    props.updateProducts();
   }
 
   return(
     <section className="product">
       <form className="product-form" onSubmit={handleSubmit}>
         <p className="title-form">Criar Item</p>
-        <Input
-        type="number"
-        attribute="Cod:"
-        readOnly
-        value={product.id}
-        />
-
         <Input 
         type="text"
         placeholder="Ex: Mesa"
         attribute="Nome:"
-        name="productName"
+        name="Name"
         onChangeText={handleChange}
-        value={product.productName}
+        value={product.Name}
         required="required"
         />
 
@@ -99,18 +78,18 @@ const Product = (props) => {
         type="number"
         placeholder="Ex: 250.50"
         attribute="Preço Unitário:" 
-        name="price"
+        name="UnitValue"
         onChangeText={handleChange}
-        value={product.price}
+        value={product.UnitValue}
         />
         
         <Input
         type="number"
         placeholder="Ex: 100"
         attribute="Em Estoque:" 
-        name="stock"
+        name="QuantityInStock"
         onChangeText={handleChange}
-        value={product.stock}
+        value={product.QuantityInStock}
         />
 
         <Button 
