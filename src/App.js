@@ -83,27 +83,29 @@ const App = () => {
     setProducts(filteredProducts);
   };
 
-  const handleStockChange = (id, operation) => {
-    const changedProduct = products.find((product) => product.id === id);
-    const index = products.findIndex((product) => product.id === id);
+  const handleStockChange = async (id, operation) => {
+    const original = await DataStore.query(ProductModels, id);
+
     let newStock;
     if (operation === "add") {
-      newStock = Number(changedProduct.stock) + 1;
+      newStock = Number(original.QuantityInStock) + 1;
     }
     if (operation === "sub") {
-      newStock = Number(changedProduct.stock) - 1;
+      newStock = Number(original.QuantityInStock) - 1;
     }
     if (newStock === 0) {
       handleDelete(id);
       return;
     }
-    const newStockPrice = newStock * changedProduct.price;
-    changedProduct.stock = newStock;
-    changedProduct.stockPrice = newStockPrice;
-    const newProducts = products.filter((product) => product.id !== id);
-    newProducts.splice(index, 0, changedProduct);
-    setProducts(newProducts);
-    localStorage.setItem("products", JSON.stringify(newProducts));
+    const newStockPrice = newStock * original.UnitValue;
+
+    await DataStore.save(
+      ProductModels.copyOf(original, updated => {
+        updated.QuantityInStock = newStock;
+        updated.TotalValue = newStockPrice
+      })
+    );
+    getData();
   };
 
   return (
