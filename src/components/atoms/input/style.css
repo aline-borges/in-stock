@@ -20,6 +20,10 @@
   outline: none;
 }
 
+input:required {
+  box-shadow:none;
+}
+
 /* MEDIA QUERIES */
 
 @media (max-width: 414px) {
