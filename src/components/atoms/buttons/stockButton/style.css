@@ -9,3 +9,7 @@
   margin: 0 1rem;
   font-size: 1.8rem;
 }
+
+.stock-button:first-of-type {
+  padding: 1rem 1.7rem;
+}
