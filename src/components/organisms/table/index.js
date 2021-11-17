@@ -14,11 +14,11 @@ const Table = (props) => {
       key={product.id}
       className="products-row">
       <td 
-      className="products-item">{product.id}</td>
+      className="products-item" id="product-id">{product.id}</td>
       <td 
       className="products-item">{product.Name}</td>
       <td 
-      className="products-item">{product.UnitValue}</td>
+      className="products-item">{(product.UnitValue).toFixed(2)}</td>
       <td 
       className="products-item">
         <StockButton 
@@ -30,7 +30,7 @@ const Table = (props) => {
         onClick={() =>props.onChangeStock(product.id, 'add')}/>
       </td>
       <td 
-      className="products-item">R${product.UnitValue * product.QuantityInStock}</td>
+      className="products-item">R${(product.UnitValue * product.QuantityInStock).toFixed(2)}</td>
       <td className="products-item">
         <EditButton
         id="delete-button" 
